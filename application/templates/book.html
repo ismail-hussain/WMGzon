@@ -1,0 +1,94 @@
+{% extends 'base.html' %} {% block title %} Books {% endblock %} {% block
+content %}
+<div id="main-div">
+  <div id="filters-div">
+    <h1>Listing Preferences</h1>
+    <form method="POST" action="{{ url_for('books.book_page') }}">
+    <div id="filters">
+      <a
+        class="btn btn-primary filter-btn"
+        data-toggle="collapse"
+        href="#collapseGenres"
+        role="button"
+        aria-expanded="false"
+        aria-controls="collapseGenres"
+      >
+        Genres
+      </a>
+      <div class="collapse" id="collapseGenres">
+        
+          {{ form.hidden_tag() }} {{ form.fiction.label }} {{ form.fiction }}<br />
+          {{ form.non_fiction.label }} {{ form.non_fiction }}<br />
+          {{ form.mystery.label }} {{ form.mystery }}<br />
+          {{ form.science_fiction.label }} {{ form.science_fiction }}<br />
+          {{ form.fantasy.label }} {{ form.fantasy }}<br />
+          {{ form.romance.label }} {{ form.romance }}<br />
+          {{ form.classic.label }} {{ form.classic }}<br />
+          {{ form.thriller.label }} {{ form.thriller }}<br />
+          {{ form.biography.label }} {{ form.biography }}<br />
+          {{ form.history.label }} {{ form.history }}<br />
+          {{ form.self_help.label }} {{ form.self_help }}<br />
+
+      </div>
+      <a
+        class="btn btn-primary filter-btn"
+        data-toggle="collapse"
+        href="#collapsePrices"
+        role="button"
+        aria-expanded="false"
+        aria-controls="collapsePrices"
+      >
+        Price
+      </a>
+      <div class="collapse" id="collapsePrices">
+        <!-- Price range options -->
+          {{ form.under5.label }} {{ form.under5 }}<br />
+          {{ form.filter5_10.label }} {{ form.filter5_10 }}<br />
+          {{ form.filter10_15.label }} {{ form.filter10_15 }}<br />
+          {{ form.filter15_20.label }} {{ form.filter15_20 }}<br />
+          {{ form.filter20_25.label }} {{ form.filter20_25 }}<br />
+      </div>
+      <a
+        class="btn btn-primary filter-btn"
+        data-toggle="collapse"
+        href="#collapseSort"
+        role="button"
+        aria-expanded="false"
+        aria-controls="collapseSort"
+      >
+        Sort
+      </a>
+      <div class="collapse" id="collapseSort">
+        <!-- Sorting options -->
+        {% for option in form.sorting %}
+        {{ option }} {{ option.label }}<br />
+        {% endfor %}
+      </div>
+      {{ form.submit(class="btn btn-primary filter-btn", id="apply-filter") }}
+    </form>
+    </div>
+  </div>
+  <div id="my-container">
+    {% for book in books %}
+    {% if not book.delisted %}
+    <div class="book-div">
+      <a href="{{ url_for('books.home_page', id=book.id) }}">
+        <div class="item-font">
+          {% if book.book_picture %}
+          <img
+            class="book-img"
+            src="{{ url_for('books.display', book_id=book.id) }}"
+            alt="Book Image"
+          />
+
+          {% endif %}
+          <p class="font-margin">{{ book.title }}</p>
+          <p>£{{ book.price }}</p>
+        </div>
+      </a>
+    </div>
+    {% endif %}
+    {% endfor %}
+  </div>
+</div>
+{% endblock %}

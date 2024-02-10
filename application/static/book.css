@@ -1,0 +1,402 @@
+html,
+body {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+}
+
+nav {
+  background: #4ff152;
+}
+
+.first-nav {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+}
+
+.second-nav {
+  width: 100%;
+  display: flex;
+  justify-content: space-around;
+}
+#my-container {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(5vw, 1fr));
+  row-gap: 20px;
+  column-gap: 0px;
+  place-items: center;
+
+  width: 80%;
+}
+
+.register-text {
+  color: black;
+}
+#rate-box {
+  /* border: 5px solid black; */
+  width: 15vw;
+}
+.rate {
+  float: left;
+  height: 46px;
+  padding: 0 10px;
+}
+.rate:not(:checked) > input {
+  position: absolute;
+  top: -9999px;
+}
+.rate:not(:checked) > label {
+  float: right;
+  width: 1em;
+  overflow: hidden;
+  white-space: nowrap;
+  cursor: pointer;
+  font-size: 30px;
+  color: #ccc;
+}
+.rate:not(:checked) > label:before {
+  content: '★ ';
+}
+.rate > input:checked ~ label {
+  color: #ffc700;
+}
+.rate:not(:checked) > label:hover,
+.rate:not(:checked) > label:hover ~ label {
+  color: #deb217;
+}
+.rate > input:checked + label:hover,
+.rate > input:checked + label:hover ~ label,
+.rate > input:checked ~ label:hover,
+.rate > input:checked ~ label:hover ~ label,
+.rate > label:hover ~ input:checked ~ label {
+  color: #c59b08;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 20px;
+}
+
+th,
+td {
+  border: 1px solid #ddd;
+  padding: 8px;
+  text-align: left;
+}
+
+th {
+  background-color: #f2f2f2;
+}
+
+#add-btn-div {
+  display: flex;
+  justify-content: center;
+  margin-top: 5vh;
+}
+
+.add-btn {
+  padding: 1vh 2vw;
+  border-radius: 5px;
+}
+
+.book-img {
+  width: 12vw;
+  height: 32vh;
+}
+
+#main-div {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 5vh;
+}
+
+.book-div {
+  /* border: 1px solid black; */
+  width: 15vw;
+  display: flex;
+  justify-content: center;
+}
+.item-font {
+  color: black;
+  font-weight: bold;
+}
+.font-margin {
+  margin-top: 0vh;
+}
+
+#filters-div {
+  width: 20%;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  margin-left: 0.5vw;
+  border-right: 5px solid black;
+}
+
+/* #filters {
+  display: flex;
+} */
+
+.filter-btn {
+  width: 10vw;
+  margin-bottom: 1vh;
+}
+
+#apply-filter {
+  background-color: green;
+}
+
+ul li,
+ol li {
+  list-style: none; /* Remove bullet points or numbering for list items */
+}
+
+.temp-img {
+  width: 45vh;
+  height: 60vh;
+  border: 2px solid black;
+}
+
+#info-div {
+  display: flex;
+  flex-direction: column;
+  margin-left: 1vh;
+  margin-top: 1vh;
+  width: 100%;
+}
+
+#main-info {
+  display: flex;
+  margin-left: 1.5vh;
+}
+
+#book-info {
+  display: flex;
+  justify-content: space-between;
+  margin-left: 3vh;
+  width: 75vw;
+}
+
+#add-to-basket-btn,
+#buy-now-btn {
+  width: 15vw;
+  margin: 1vh 0;
+}
+
+#quantity-btn {
+  width: 10vw;
+}
+
+#review-form {
+  display: flex;
+  flex-direction: column;
+}
+
+#description {
+  border-right: 2px solid black;
+  width: 55vw;
+}
+
+#price-description {
+  padding-right: 3vw;
+}
+
+#description-text {
+  margin-top: 2vh;
+}
+
+#collapseReviews {
+  border-top: 2px solid black;
+  margin-left: 0.7vw;
+  margin-top: 1vw;
+}
+/* ---------------------------------------------------------------------------- */
+#basket {
+  display: flex;
+  margin: 5vh 0 0 2vw;
+}
+#all-items-container {
+  border-right: 2px solid red;
+  width: 60vw;
+}
+
+#individual-item-container {
+  border-bottom: 2px solid black;
+  display: flex;
+  margin-bottom: 2vh;
+  align-items: center;
+}
+
+#book-part {
+  /* border: 2px solid blue; */
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 2%;
+  border-radius: 10px;
+  width: 100%;
+}
+
+/* #quantity-part {
+  border: 2px solid blue;
+
+  height: 10vh;
+  margin-left: 2vw;
+  border-radius: 10px;
+} */
+
+#individual-basket-img {
+}
+
+#basket-summary {
+  width: 40vw;
+  height: 60vh;
+  /* border: 2px solid green; */
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-around;
+}
+#Continue-shopping-div {
+  width: 40vw;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-around;
+}
+#checkout-btn {
+  background: #ff9900;
+  border: none;
+  width: 10vw;
+  height: 10vh;
+  color: #faf9f7;
+}
+.wishlist-btn,
+.remove-btn,
+.move-to-basket-btn {
+  width: 13vw;
+  height: 5vh;
+  margin: 0.5vh 0;
+  color: #faf9f7;
+  border: none;
+}
+
+.wishlist-btn {
+  background: #ff9900;
+}
+.remove-btn {
+  background: #dd1f2b;
+}
+
+.move-to-basket-btn {
+  background: #4ff152;
+}
+
+.basket-item-desc {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+}
+#no-basket-msg {
+  margin: 3vh 0 0 2vw;
+}
+
+/* -------------------------------------------------------------------- */
+#sale-container {
+  display: flex;
+  flex-direction: column;
+  /* border: 1px solid black; */
+  align-items: center;
+}
+
+#smaller-sale-container {
+  display: flex;
+  justify-content: space-between;
+  width: 80vw;
+  margin: 3vh 0;
+}
+.sale {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.big-sale-img {
+  width: 80vw;
+  margin-top: 3vh;
+}
+
+.valentines-img {
+  width: 20vw;
+  height: 30vh;
+}
+
+.clearance-image {
+  width: 35vw;
+  height: 30vh;
+}
+
+.main-book-img {
+  width: 20vw;
+  height: 30vh;
+}
+
+.valentines-btn,
+.clearance-btn,
+.shop-books-btn {
+  margin-top: 1vh;
+  border-radius: 10px;
+  padding: 0.5vh 0.7vw;
+  border: none;
+}
+
+.valentines-btn {
+  background: #ff3131;
+  color: #faf9f7;
+}
+.clearance-btn {
+  background: #ffde59;
+  color: #000;
+}
+.shop-books-btn {
+  background: #004aad;
+  color: #faf9f7;
+  text-decoration: none;
+}
+.shop-books-btn:hover {
+  color: #faf9f7; /* Maintain the same color on hover */
+  text-decoration: none; /* Remove underline on hover */
+}
+
+/* -------------------------------------------------------------- */
+
+#chart-container {
+  /* margin-top: 10vh; */
+
+  display: flex;
+  justify-content: space-around;
+  margin-bottom: 10vh;
+}
+
+.charts {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.chart-table {
+  width: 95vw;
+  margin: 0 auto;
+}
+
+.table-title {
+  text-align: center;
+  margin-bottom: 5vh;
+}
+
+.delisted-table {
+  margin: 2vh 0 5vh 0;
+}

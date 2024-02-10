@@ -1,0 +1,242 @@
+{% extends 'base.html' %} {% block title %} Statistics Page {% endblock %} {%
+block content %}
+<h1 class="table-title">Product Dashboard</h1>
+<h2 class="table-title">Sales</h2>
+<div id="chart-container">
+  <div style="width: 40vw; height: 40vh" class="charts">
+    <canvas id="barChart"></canvas>
+    <h3>Revenue Generated</h3>
+  </div>
+  <div style="width: 40vw; height: 40vh" class="charts">
+    <canvas id="myChart"></canvas>
+    <h3>Sales By Genre (Month)</h3>
+  </div>
+</div>
+<div style="width: 40vw; height: 40vh" class="charts">
+  <canvas id="reviewChart"></canvas>
+  <h3>Customer Satisfaction</h3>
+</div>
+<div>
+  <table class="chart-table">
+    <thead>
+      <tr>
+        <th>Title</th>
+        <th>Price</th>
+        <th>Barcode</th>
+        <th>Genre</th>
+        <th>Author</th>
+        <th>Release Year</th>
+        <th>Stock</th>
+        <th>Sales</th>
+        <th>Revenue</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for book in book_sales_info %}
+      <tr>
+        <td>{{ book.title }}</td>
+        <td>{{ book.price }}</td>
+        <td>{{ book.barcode }}</td>
+        <td>{{ book.genre }}</td>
+        <td>{{ book.author }}</td>
+        <td>{{ book.release_year }}</td>
+        <td>{{ book.stock }}</td>
+        <td>{{ book.sales }}</td>
+        <td>£{{ book.revenue }}</td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+  <h2 class="table-title">Top Sellers Of The Month</h2>
+</div>
+<div>
+  <table class="chart-table">
+    <thead>
+      <tr>
+        <th>Title</th>
+        <th>Price</th>
+        <th>Barcode</th>
+        <th>Genre</th>
+        <th>Author</th>
+        <th>Release Year</th>
+        <th>Stock</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for book in low_stock_books %}
+      <tr>
+        <td>{{ book.title }}</td>
+        <td>{{ book.price }}</td>
+        <td>{{ book.barcode }}</td>
+        <td>{{ book.genre }}</td>
+        <td>{{ book.author }}</td>
+        <td>{{ book.release_year }}</td>
+        <td>{{ book.stock }}</td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+  <h2 class="table-title">Books with Low Stock</h2>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script>
+  fetch('/statistics/revenue-generated')
+    .then((response) => response.json())
+    .then((data) => {
+      var ctx = document.getElementById('barChart').getContext('2d');
+      var myChart = new Chart(ctx, {
+        type: 'bar', // Change to 'line', 'pie', etc.
+        data: {
+          labels: data.labels,
+          datasets: [
+            {
+              label: 'Monthly Data',
+              data: data.values,
+              backgroundColor: [
+                'rgba(255, 99, 132, 0.2)',
+                'rgba(54, 162, 235, 0.2)',
+                'rgba(255, 206, 86, 0.2)',
+                'rgba(75, 192, 192, 0.2)',
+                'rgba(153, 102, 255, 0.2)',
+                'rgba(255, 159, 64, 0.2)',
+              ],
+              borderColor: [
+                'rgba(255, 99, 132, 1)',
+                'rgba(54, 162, 235, 1)',
+                'rgba(255, 206, 86, 1)',
+                'rgba(75, 192, 192, 1)',
+                'rgba(153, 102, 255, 1)',
+                'rgba(255, 159, 64, 1)',
+              ],
+              borderWidth: 1,
+            },
+          ],
+        },
+        options: {
+          scales: {
+            y: {
+              beginAtZero: true,
+            },
+          },
+        },
+      });
+    })
+    .catch((error) => console.error('Error loading data:', error));
+
+  fetch('/statistics/sales-by-genre')
+    .then((response) => response.json())
+    .then((data) => {
+      console.log(data);
+      var ctx = document.getElementById('myChart').getContext('2d');
+      var myChart = new Chart(ctx, {
+        type: 'pie', // Change the chart type to 'pie'
+        data: {
+          labels: data.labels,
+          datasets: [
+            {
+              label: 'Monthly Data',
+              data: data.values,
+              backgroundColor: [
+                'rgba(255, 99, 132, 0.5)',
+
+                'rgba(54, 162, 235, 0.5)',
+                'rgba(255, 206, 86, 0.5)',
+                'rgba(75, 192, 192, 0.5)',
+                'rgba(153, 102, 255, 0.5)',
+                'rgba(255, 159, 64, 0.5)',
+                'rgba(255, 99, 132, 0.5)',
+              ],
+              borderColor: [
+                'rgba(255, 99, 132, 1)',
+                'rgba(54, 162, 235, 1)',
+                'rgba(255, 206, 86, 1)',
+                'rgba(75, 192, 192, 1)',
+                'rgba(153, 102, 255, 1)',
+                'rgba(255, 159, 64, 1)',
+                'rgba(255, 99, 132, 1)',
+              ],
+              borderWidth: 1,
+            },
+          ],
+        },
+        options: {
+          responsive: true,
+          maintainAspectRatio: false,
+        },
+      });
+    })
+    .catch((error) => console.error('Error loading data:', error));
+
+  fetch('/statistics/reviews-count')
+    .then((response) => response.json())
+    .then((data) => {
+      console.log(data);
+      var ctx = document.getElementById('reviewChart').getContext('2d');
+      var myChart = new Chart(ctx, {
+        type: 'bar', // Change the chart type to 'pie'
+        data: {
+          labels: data.labels_7_days,
+          datasets: [
+            {
+              label: 'Last 7 days',
+              data: data.values_7_days,
+              backgroundColor: [
+                'rgba(255, 99, 132, 0.5)',
+
+                'rgba(54, 162, 235, 0.5)',
+                'rgba(255, 206, 86, 0.5)',
+                'rgba(75, 192, 192, 0.5)',
+                'rgba(153, 102, 255, 0.5)',
+                'rgba(255, 159, 64, 0.5)',
+                'rgba(255, 99, 132, 0.5)',
+              ],
+              borderColor: [
+                'rgba(255, 99, 132, 1)',
+                'rgba(54, 162, 235, 1)',
+                'rgba(255, 206, 86, 1)',
+                'rgba(75, 192, 192, 1)',
+                'rgba(153, 102, 255, 1)',
+                'rgba(255, 159, 64, 1)',
+                'rgba(255, 99, 132, 1)',
+              ],
+              borderWidth: 1,
+            },
+            {
+              label: 'Last 14 days',
+              data: data.values_7_14_days,
+              backgroundColor: [
+                'rgba(255, 99, 132, 0.5)',
+
+                'rgba(54, 162, 235, 0.5)',
+                'rgba(255, 206, 86, 0.5)',
+                'rgba(75, 192, 192, 0.5)',
+                'rgba(153, 102, 255, 0.5)',
+                'rgba(255, 159, 64, 0.5)',
+                'rgba(255, 99, 132, 0.5)',
+              ],
+              borderColor: [
+                'rgba(255, 99, 132, 1)',
+                'rgba(54, 162, 235, 1)',
+                'rgba(255, 206, 86, 1)',
+                'rgba(75, 192, 192, 1)',
+                'rgba(153, 102, 255, 1)',
+                'rgba(255, 159, 64, 1)',
+                'rgba(255, 99, 132, 1)',
+              ],
+              borderWidth: 1,
+            },
+          ],
+        },
+        options: {
+          responsive: true,
+          interaction: {
+            intersect: false,
+          },
+        },
+      });
+    })
+    .catch((error) => console.error('Error loading data:', error));
+</script>
+
+{% endblock %}

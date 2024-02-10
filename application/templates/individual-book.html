@@ -1,0 +1,119 @@
+{% extends 'base.html' %} {% block title %} {{ book.title}} {% endblock %} {%
+block content %}
+<div id="info-div">
+  <div id="main-info">
+    {% if book.book_picture %}
+    <div>
+      <img
+        class="temp-img"
+        src="{{ url_for('books.display', book_id=book.id) }}"
+        alt="Book Image"
+      />
+    </div>
+    {% endif %}
+
+    <div id="book-info">
+      <div id="description">
+        <h1>{{book.title}}</h1>
+        <p>by {{book.author}}</p>
+        {% if average_rating %}
+        <p>Rating: {{average_rating}}/5</p>
+        <a
+          class="btn btn-primary"
+          data-toggle="collapse"
+          href="#collapseReviews"
+          role="button"
+          aria-expanded="false"
+          aria-controls="collapseReviews"
+        >
+          Reviews
+        </a>
+        {% else %}
+        <p>no reviews yet</p>
+        {% endif %}
+
+        <p id="description-text">
+          Description: <br />
+          {{book.description}}
+        </p>
+      </div>
+      <div id="price-description">
+        <h2>£{{book.price}}</h2>
+        {% if book.stock %} {% if book.stock <=10 %}
+        <p>{{book.stock}} remaining! buy now!</p>
+        {% endif %}
+        <form method="POST">
+          {{ form2.hidden_tag() }} {{ form2.quantity.label() }} {{
+          form2.quantity(class="form-control", value=1, id="quantity-btn",
+          max=book.stock) }}
+
+          <button
+            type="submit"
+            name="action"
+            value="add_to_basket"
+            class="btn btn-lg btn-block btn-primary"
+            id="add-to-basket-btn"
+          >
+            Add to Basket
+          </button>
+          <button
+            type="submit"
+            name="action"
+            value="add_to_wishlist"
+            class="btn btn-lg btn-block btn-primary"
+            id="buy-now-btn"
+          >
+            Add to Wishlist
+          </button>
+        </form>
+        {% else %}
+        <p>Out of Stock!!!!</p>
+        {% endif %}
+      </div>
+    </div>
+  </div>
+  <div id="review-div">
+    <div class="collapse" id="collapseReviews">
+      <form method="POST" class="form-register" id="review-form">
+        <input type="hidden" name="form_type" value="add_review" />
+        {{ form.hidden_tag() }}
+        <h2>Leave a review!</h2>
+        <div id="rate-box">
+          <div class="rate">
+            <input type="radio" id="star5" name="rate" value="5" checked />
+            <label for="star5" title="text">5 stars</label>
+            <input type="radio" id="star4" name="rate" value="4" />
+            <label for="star4" title="text">4 stars</label>
+            <input type="radio" id="star3" name="rate" value="3" />
+            <label for="star3" title="text">3 stars</label>
+            <input type="radio" id="star2" name="rate" value="2" />
+            <label for="star2" title="text">2 stars</label>
+            <input type="radio" id="star1" name="rate" value="1" />
+            <label for="star1" title="text">1 star</label>
+          </div>
+        </div>
+
+        <br />
+        {{ form.review.label() }} {{ form.review(class="form-control",
+        placeholder="Enter a review!") }}
+
+        <br />
+
+        {{ form.submit(class="btn btn-lg btn-block btn-primary") }}
+      </form>
+      {% if reviews %}
+      <div id="reviews">
+        {% for review in reviews%}
+        <ul>
+          <li>{{review.rating}}/5</li>
+          <li>{{review.review_text}}</li>
+        </ul>
+        {% endfor %}
+      </div>
+      {% else %}
+      <p>No reviews available. Be the first to leave a review!</p>
+      {% endif %}
+    </div>
+  </div>
+</div>
+{% endblock %}

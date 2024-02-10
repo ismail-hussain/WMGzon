@@ -1,0 +1,58 @@
+{% extends 'base.html' %} {% block title %} Books {% endblock %} {% block
+content %}
+<h2>Search Results for "{{ query }}"</h2>
+
+{% if books_by_title or books_by_author %}
+<h3>By Title:</h3>
+{% if books_by_title %}
+<div id="my-container">
+  {% for book in books_by_title %}
+  <div class="book-div">
+    <a href="{{ url_for('books.home_page', id=book.id) }}">
+      <div class="item-font">
+        {% if book.book_picture %}
+        <img
+          class="book-img"
+          src="{{ url_for('books.display', book_id=book.id) }}"
+          alt="Book Image"
+        />
+
+        {% endif %}
+        <p class="font-margin">{{ book.title }}</p>
+        <p>£{{ book.price }}</p>
+      </div>
+    </a>
+  </div>
+  {% endfor %}
+</div>
+{% else %}
+<p>No books found by title for "{{ query }}".</p>
+{% endif %}
+
+<h3>By Author:</h3>
+{% if books_by_author %}
+<div id="my-container">
+  {% for book in books_by_author %}
+  <div class="book-div">
+    <a href="{{ url_for('books.home_page', id=book.id) }}">
+      <div class="item-font">
+        {% if book.book_picture %}
+        <img
+          class="book-img"
+          src="{{ url_for('books.display', book_id=book.id) }}"
+          alt="Book Image"
+        />
+
+        {% endif %}
+        <p class="font-margin">{{ book.title }}</p>
+        <p>£{{ book.price }}</p>
+      </div>
+    </a>
+  </div>
+  {% endfor %}
+</div>
+{% else %}
+<p>No books found by author for "{{ query }}".</p>
+{% endif %} {% else %}
+<p>No books found for "{{ query }}".</p>
+{% endif %} {% endblock %}

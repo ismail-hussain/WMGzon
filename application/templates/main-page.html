@@ -1,0 +1,39 @@
+{% extends 'base.html' %} {% block title %} Main Page {% endblock %} {% block
+content %}
+<div id="sale-container">
+  <img
+    src="../static/assets/big-sale-image.png"
+    alt="The big sale image"
+    class="big-sale-img"
+  />
+
+  <div id="smaller-sale-container">
+    <div id="christmas" class="sale">
+      <img
+        src="../static/assets/shop-valentines.png"
+        alt="Valentines image"
+        class="valentines-img"
+      />
+      <button class="valentines-btn">Shop Valentines</button>
+    </div>
+    <div id="clearance" class="sale">
+      <img
+        src="../static/assets/Clearance.PNG"
+        alt="Clearance image"
+        class="clearance-image"
+      />
+      <button class="clearance-btn">Shop Clearance</button>
+    </div>
+    <div id="sale" class="sale">
+      <img
+        src="../static/assets/shop-book 2.jpg"
+        alt="Book image"
+        class="main-book-img"
+      />
+      <a class="shop-books-btn" href="{{ url_for('books.book_page') }}">
+        Shop Book
+      </a>
+    </div>
+  </div>
+</div>
+{% endblock %}

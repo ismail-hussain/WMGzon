@@ -1,0 +1,81 @@
+{% extends 'base.html' %} {% block title %} Basket {% endblock %} {% block
+content %} {% if items %}
+<div id="basket">
+  
+  <div id="all-items-container">
+    <h1>Basket</h1>
+    {% for item in items%}
+    <div id="individual-item-container">
+      <div id="book-part">
+        <div id="individual-basket-img">
+          <a href="{{ url_for('books.home_page', id=item.book.id) }}">
+            <img
+              class="book-img"
+              src="{{ url_for('books.display', book_id=item.book.id) }}"
+              alt="Book Image"
+            />
+          </a>
+        </div>
+        <div class="basket-item-desc">
+          <p>{{item.book.title}}<br />£{{item.book.price}}</p>
+        </div>
+        <div id="quantity-part">
+          <form method="POST" action="{{ url_for('main.update_basket') }}">
+            <input type="hidden" name="basket_id" value="{{ item.id }}" />
+            <label for="quantity">Quantity:</label>
+            <select name="quantity" onchange="this.form.submit()">
+              {% for i in range(1, 11) %}
+                <option value="{{ i }}" {% if i == item.quantity %}selected{% endif %}>{{ i }}</option>
+              {% endfor %}
+            </select>
+          </form>
+        </div>
+        <div>
+          <form method="POST" action="{{ url_for('main.basket_page') }}">
+            <input type="hidden" name="basket_id" value="{{ item.id }}" />
+            <button
+              type="submit"
+              name="action"
+              value="delete"
+              class="remove-btn"
+            >
+              Remove Item
+            </button>
+          </form>
+          <form method="POST" action="{{ url_for('main.basket_page') }}">
+            <input type="hidden" name="action" value="move_to_wishlist">
+            <input type="hidden" name="book_id" value="{{ item.book.id }}" />
+            <input type="hidden" name="basket_id" value="{{ item.id }}" />
+            <button
+              type="submit"
+              class="wishlist-btn"
+            >
+              Add to Wishlist
+            </button>
+          </form>
+        </div>
+      </div>
+    </div>
+
+    {% endfor %}
+  </div>
+  <div id="basket-summary">
+    <h1>
+      subtotal: <br />
+      £{{subtotal}}
+    </h1>
+    <div id="Continue-shopping-div">
+      <h3>Continue Shopping</h3>
+      <form method="POST" action="{{ url_for('main.basket_page') }}">
+        <input type="hidden" name="action" value="checkout">
+        <button type="submit" id="checkout-btn">Checkout</button>
+      </form>
+    </div>
+  </div>
+</div>
+{% else %}
+<h1 id="no-basket-msg">
+  No items in basket!<br />
+  Visit <a href="{{ url_for('books.book_page')}}">here</a> to see our books!
+</h1>
+{% endif %} {% endblock %}

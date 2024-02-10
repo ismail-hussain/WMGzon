@@ -1,0 +1,217 @@
+{% extends 'base.html' %} {% block title %} Admin {% endblock %} {% block
+content %}
+<table>
+  <thead>
+    <tr>
+      <th>ID</th>
+      <th>Title</th>
+      <th>Price (£)</th>
+      <th>Barcode</th>
+      <th>Genre</th>
+      <th>Description</th>
+      <th>Author</th>
+      <th>Release Year</th>
+      <th>Blurb</th>
+      <th>Stock</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for book in books %} {% if not book.delisted %}
+    <tr>
+      <td>{{ book.id }}</td>
+      <td>{{ book.title }}</td>
+      <td>{{ book.price }}</td>
+      <td>{{ book.barcode }}</td>
+      <td>{{ book.genre }}</td>
+      <td>{{ book.description }}</td>
+      <td>{{ book.author }}</td>
+      <td>{{ book.release_year }}</td>
+      <td>{{ book.blurb }}</td>
+      <td>{{ book.stock }}</td>
+      <td>
+        <button
+          class="edit-btn"
+          data-toggle="modal"
+          data-target="#editModal{{ book.id }}"
+        >
+          Edit
+        </button>
+        <form
+          method="POST"
+          action="{{ url_for('main.admin_page', id=book.id) }}"
+          style="display: inline-block"
+        >
+          <input type="hidden" name="form_type" value="delete_record" />
+          <input type="hidden" name="delete_book" value="{{ book.id }}" />
+          <button type="submit" class="delete-btn">Delist</button>
+        </form>
+        <!-- Add a modal for each book -->
+        <div
+          class="modal fade"
+          id="editModal{{ book.id }}"
+          tabindex="-1"
+          role="dialog"
+          aria-labelledby="editModalLabel{{ book.id }}"
+          aria-hidden="true"
+        >
+          <div class="modal-dialog" role="document">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h5 class="modal-title" id="editModalLabel{{ book.id }}">
+                  Edit Book
+                </h5>
+                <button
+                  type="button"
+                  class="close"
+                  data-dismiss="modal"
+                  aria-label="Close"
+                >
+                  <span aria-hidden="true">&times;</span>
+                </button>
+              </div>
+              <div class="modal-body">
+                <form method="POST" action="{{ url_for('main.admin_page') }}">
+                  {{ form.hidden_tag() }}
+                  <input type="hidden" name="form_type" value="update_record" />
+                  <input type="hidden" name="edit_book" value="{{ book.id }}" />
+                  {{ form2.title.label() }} {{ form2.title(class="form-control",
+                  placeholder="Title", value=book.title) }} {{
+                  form2.price.label() }} {{ form2.price(class="form-control",
+                  placeholder="Price", value=book.price) }} {{
+                  form2.barcode.label() }} {{
+                  form2.barcode(class="form-control", placeholder=Barcode,
+                  value=book.barcode) }} {{ form2.genre.label() }} {{
+                  form2.genre(class="form-control", placeholder="Genre") }} {{
+                  form2.description2.label() }} {{
+                  form2.description2(class="form-control",
+                  placeholder="Description", value=book.description) }} {{
+                  form2.author.label() }} {{ form2.author(class="form-control",
+                  placeholder="Author",value=book.author) }} {{
+                  form2.releaseYear.label() }} {{
+                  form2.releaseYear(class="form-control", placeholder="Release
+                  Year", value=book.release_year) }} {{ form2.blurb.label() }}
+                  {{ form2.blurb(class="form-control", placeholder="Blurb",
+                  value=book.blurb) }} {{ form2.stock.label() }} {{
+                  form2.stock(class="form-control", placeholder="Stock",
+                  value=book.stock) }} {{ form2.submit(class="btn btn-lg
+                  btn-block btn-primary") }}
+                </form>
+              </div>
+            </div>
+          </div>
+        </div>
+      </td>
+    </tr>
+    {% endif %} {% endfor %}
+  </tbody>
+</table>
+<div id="add-btn-div">
+  <button class="add-btn" data-toggle="modal" data-target="#addModal">
+    Add
+  </button>
+</div>
+{% if books|selectattr('delisted', 'equalto', true)|list %}
+<div class="delisted-table">
+  <table>
+    <thead>
+      <tr>
+        <th>ID</th>
+        <th>Title</th>
+        <th>Price (£)</th>
+        <th>Barcode</th>
+        <th>Genre</th>
+        <th>Description</th>
+        <th>Author</th>
+        <th>Release Year</th>
+        <th>Blurb</th>
+        <th>Stock</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for book in books %} {% if book.delisted %}
+      <tr>
+        <td>{{ book.id }}</td>
+        <td>{{ book.title }}</td>
+        <td>{{ book.price }}</td>
+        <td>{{ book.barcode }}</td>
+        <td>{{ book.genre }}</td>
+        <td>{{ book.description }}</td>
+        <td>{{ book.author }}</td>
+        <td>{{ book.release_year }}</td>
+        <td>{{ book.blurb }}</td>
+        <td>{{ book.stock }}</td>
+        <td>
+          
+          <form
+            method="POST"
+            action="{{ url_for('main.admin_page', id=book.id) }}"
+            style="display: inline-block"
+          >
+            <input type="hidden" name="form_type" value="relist_record" />
+            <input type="hidden" name="relist_book" value="{{ book.id }}" />
+            <button type="submit" class="delete-btn">Relist</button>
+          </form>
+          
+            
+          </div>
+        </td>
+      </tr>
+      {% endif %} {% endfor %}
+    </tbody>
+  </table>
+</div>
+
+{% endif %}
+<div
+  class="modal fade"
+  id="addModal"
+  tabindex="-1"
+  role="dialog"
+  aria-labelledby="addModalLabel"
+  aria-hidden="true"
+>
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="addModalLabel">Add New Book</h5>
+        <button
+          type="button"
+          class="close"
+          data-dismiss="modal"
+          aria-label="Close"
+        >
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <form
+          method="POST"
+          action="{{ url_for('main.admin_page') }}"
+          enctype="multipart/form-data"
+        >
+          {{ form.hidden_tag() }}
+          <input type="hidden" name="form_type" value="add_record" />
+          {{ form.title.label() }} {{ form.title(class="form-control",
+          placeholder="Title") }} {{ form.price.label() }} {{
+          form.price(class="form-control", placeholder="Price") }} {{
+          form.barcode.label() }} {{ form.barcode(class="form-control",
+          placeholder="Barcode") }} {{ form.genre.label() }} {{
+          form.genre(class="form-control", placeholder="Genre") }} {{
+          form.description2.label() }} {{
+          form.description2(class="form-control", placeholder="Description") }}
+          {{ form.author.label() }} {{ form.author(class="form-control",
+          placeholder="Author") }} {{ form.releaseYear.label() }} {{
+          form.releaseYear(class="form-control", placeholder="Release Year") }}
+          {{ form.blurb.label() }} {{ form.blurb(class="form-control",
+          placeholder="Blurb") }} {{ form.stock.label() }} {{
+          form.stock(class="form-control", placeholder="Stock") }} {{
+          form.book_picture.label() }} {{
+          form.book_picture(class="form-control") }} {{ form.submit(class="btn
+          btn-lg btn-block btn-primary") }}
+          <input type="hidden" name="form_type" value="add_record" />
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}
