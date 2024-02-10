@@ -5,7 +5,7 @@ from application.models import User
 from flask_wtf.file import FileField, FileAllowed
 
 
-class RegisterForm(FlaskForm):
+class RegisterForm(FlaskForm): #login
     def validate_email_address(self, email_address_to_check):
         email_address = User.query.filter_by(email_address=email_address_to_check.data).first()
         if email_address:
