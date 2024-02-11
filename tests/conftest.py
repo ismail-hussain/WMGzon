@@ -7,7 +7,7 @@ from application import create_app, db, add_fake_books, add_fake_reviews, add_fa
 from application.models import User, Book, Review, Sale
 from flask_login import login_user, logout_user
 #Fixtures
- 
+
 @pytest.fixture
 def client():
     env = "TEST"
