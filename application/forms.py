@@ -3,7 +3,7 @@ from wtforms import BooleanField, IntegerField, RadioField, SelectField, SelectM
 from wtforms.validators import Length, EqualTo, Email, DataRequired, ValidationError, NumberRange
 from application.models import User
 from flask_wtf.file import FileField, FileAllowed
-
+ 
 
 class RegisterForm(FlaskForm): #login
     def validate_email_address(self, email_address_to_check):
