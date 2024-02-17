@@ -1,10 +1,18 @@
+/*Base Settings for HTML and body to use full screen and rest deafult spacing
+
+  Often Within this file you may find code commented out: these include:
+  - Extra information for better understanding
+  - Borders to allow for accurate Layouts
+  - Potentail designs that have been considered 
+*/
+
 html,
 body {
   height: 100%;
   margin: 0;
   padding: 0;
 }
-
+/* Navigation Bar Design*/
 nav {
   background: #4ff152;
 }
@@ -20,6 +28,15 @@ nav {
   display: flex;
   justify-content: space-around;
 }
+
+/* ---------------------------------------------------------------------------- */
+
+/*Individual Books Product Page Layout. Include::
+- Containers
+- Design 
+- Layout 
+- Reviiew function*/
+
 #my-container {
   display: grid;
   grid-template-columns: repeat(4, minmax(5vw, 1fr));
@@ -33,19 +50,24 @@ nav {
 .register-text {
   color: black;
 }
+
+/*Ratings Section Container */
 #rate-box {
   /* border: 5px solid black; */
   width: 15vw;
 }
+/* Individual Rating Stars Design*/
 .rate {
   float: left;
   height: 46px;
-  padding: 0 10px;
+  padding: 0 10px; 
 }
+/*Hide input off screen */
 .rate:not(:checked) > input {
   position: absolute;
   top: -9999px;
 }
+/* Create clickable star affect */
 .rate:not(:checked) > label {
   float: right;
   width: 1em;
@@ -55,6 +77,7 @@ nav {
   font-size: 30px;
   color: #ccc;
 }
+/* Star design With change color effect when selected*/
 .rate:not(:checked) > label:before {
   content: '★ ';
 }
@@ -73,6 +96,7 @@ nav {
   color: #c59b08;
 }
 
+/* Book Details Table Design*/
 table {
   width: 100%;
   border-collapse: collapse;
@@ -90,28 +114,36 @@ th {
   background-color: #f2f2f2;
 }
 
+/*Container for add button*/
 #add-btn-div {
   display: flex;
   justify-content: center;
   margin-top: 5vh;
 }
 
+/*Style for Add button*/
 .add-btn {
   padding: 1vh 2vw;
   border-radius: 5px;
 }
-
+/* Style for book images*/
 .book-img {
   width: 12vw;
   height: 32vh;
 }
 
+/*Books Catagory Page Layout. Include::
+- Containers
+- Design 
+- Layout 
+- Filters Drop down*/
 #main-div {
   display: flex;
   justify-content: space-between;
   margin-top: 5vh;
 }
 
+/* Individual Books Container*/ 
 .book-div {
   /* border: 1px solid black; */
   width: 15vw;
@@ -126,6 +158,7 @@ th {
   margin-top: 0vh;
 }
 
+/* Design for Sidebar (Filters)*/
 #filters-div {
   width: 20%;
   height: 100vh;
@@ -138,7 +171,7 @@ th {
 /* #filters {
   display: flex;
 } */
-
+/* Design for buttons within Sidebar (Filters)*/
 .filter-btn {
   width: 10vw;
   margin-bottom: 1vh;
@@ -158,7 +191,7 @@ ol li {
   height: 60vh;
   border: 2px solid black;
 }
-
+ /*Container for main book information*/
 #info-div {
   display: flex;
   flex-direction: column;
@@ -166,7 +199,7 @@ ol li {
   margin-top: 1vh;
   width: 100%;
 }
-
+/* Books layout for informations*/
 #main-info {
   display: flex;
   margin-left: 1.5vh;
@@ -179,6 +212,7 @@ ol li {
   width: 75vw;
 }
 
+/*Product page  buttons and layout*/
 #add-to-basket-btn,
 #buy-now-btn {
   width: 15vw;
@@ -206,7 +240,7 @@ ol li {
 #description-text {
   margin-top: 2vh;
 }
-
+/*Review Section toggle button*/
 #collapseReviews {
   border-top: 2px solid black;
   margin-left: 0.7vw;
@@ -228,7 +262,7 @@ ol li {
   margin-bottom: 2vh;
   align-items: center;
 }
-
+ /* Books details that are shown in basket*/
 #book-part {
   /* border: 2px solid blue; */
   display: flex;
@@ -250,6 +284,7 @@ ol li {
 #individual-basket-img {
 }
 
+/*Summary Section Layout and buttons Details*/
 #basket-summary {
   width: 40vw;
   height: 60vh;
@@ -305,6 +340,14 @@ ol li {
 }
 
 /* -------------------------------------------------------------------- */
+
+/* Home Page Layout. Includes::
+   - Containers
+   - Designs
+   - Text
+   -Buttons (where applicable)
+*/
+
 #sale-container {
   display: flex;
   flex-direction: column;
@@ -372,6 +415,8 @@ ol li {
 }
 
 /* -------------------------------------------------------------- */
+
+/*Admin Dashboard Layout*/
 
 #chart-container {
   /* margin-top: 10vh; */
