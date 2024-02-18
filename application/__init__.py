@@ -42,6 +42,7 @@ def create_app(env=None):
     # Makes sure DB is created in an application context
     app.app_context().push()
 
+#For User Authenication
     CORS(app)
     bcrypt.init_app(app)
     login_manager.init_app(app)
@@ -62,7 +63,7 @@ def add_fake_users():
     fake_users = [
         User(email_address=f'user{i}@example.com', password_hash=f'$2b$12$ztfPkK9dcG4GvHc2g2eIG.udi/H1GI/HGxg0Cl76r2Da2lX9T1.M2', is_admin=(i % 3 == 0))
         for i in range(1, 11)
-    ]
+    ] # while the site is in development, i have made ever 3rd user an admin
 
     db.session.add_all(fake_users)
     db.session.commit()
@@ -148,5 +149,6 @@ def add_fake_sales():
         Sale(book_id=9, quantity_sold=78, sale_date=current_time),
         Sale(book_id=10, quantity_sold=69, sale_date=current_time),
     ]
+    # Store Records In Database
     db.session.add_all(fake_sales)
     db.session.commit()

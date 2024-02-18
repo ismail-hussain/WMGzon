@@ -5,7 +5,7 @@ from application.models import User
 from flask_wtf.file import FileField, FileAllowed
  
 
-class RegisterForm(FlaskForm): #login
+class RegisterForm(FlaskForm): #Sign Up
     def validate_email_address(self, email_address_to_check):
         email_address = User.query.filter_by(email_address=email_address_to_check.data).first()
         if email_address:
@@ -16,17 +16,17 @@ class RegisterForm(FlaskForm): #login
     password2 = PasswordField(label='Confirm Password:', validators=[EqualTo('password1'), DataRequired()])
     submit = SubmitField(label='Create Account')
 
-class LoginForm(FlaskForm):
+class LoginForm(FlaskForm): # Login
     email_address = StringField(label='Email Address:', validators=[Email(), DataRequired()])
     password = PasswordField(label='Password:', validators=[DataRequired()])
     submit = SubmitField(label='Sign in')
 
 
-class ReviewForm(FlaskForm):
+class ReviewForm(FlaskForm): #Review For Products
     review = StringField(label='Review Text', validators=[DataRequired()])
     submit = SubmitField(label='Submit Review')
 
-class AddBookForm(FlaskForm):
+class AddBookForm(FlaskForm): # Add Book Listing (Admin Only)
     title = StringField(label='Title', validators=[DataRequired()])
     price = StringField(label='Price', validators=[DataRequired()])
     barcode = StringField(label='Barcode', validators=[DataRequired(), Length(min=12, max=12, message="Barcode must be 12 characters long")])
@@ -39,7 +39,7 @@ class AddBookForm(FlaskForm):
     book_picture = FileField(label='Book Picture', validators=[FileAllowed(['jpg', 'png', 'jpeg'])])
     submit = SubmitField(label='Add Book')
 
-class EditBookForm(FlaskForm):
+class EditBookForm(FlaskForm): # Edit Listings (Admin Only)
     title = StringField(label='Title', validators=[DataRequired()])
     price = StringField(label='Price', validators=[DataRequired()])
     barcode = StringField(label='Barcode', validators=[DataRequired(), Length(min=12, max=12, message="Barcode must be 12 characters long")])
@@ -55,7 +55,7 @@ class AddToBasketForm(FlaskForm):
     quantity = IntegerField('Quantity:', validators=[DataRequired(), NumberRange(min=0)])
     submit = SubmitField('Add to Basket')
 
-class BookFilterForm(FlaskForm):
+class BookFilterForm(FlaskForm): #Filter Items On Catagory Page
     genres = SelectMultipleField('Genres', choices=[
         ('fiction', 'Fiction'), ('non-fiction', 'Non-Fiction'), ('mystery', 'Mystery'), ('science-fiction', 'Science Fiction'), ('fantasy', 'Fantasy'), ('romance', 'Romance'), ('classic', 'Classic'), ('thriller', 'Thriller'), ('biography', 'Biography'), ('history', 'History'), ('self-help', 'Self-Help')
         # Add more genres as needed
@@ -63,7 +63,7 @@ class BookFilterForm(FlaskForm):
 
     submit = SubmitField('Apply Filters')
 
-class GenreForm(FlaskForm):
+class GenreForm(FlaskForm): #Filter and/or Sort Books
     fiction = BooleanField('Fiction')
     non_fiction = BooleanField('Non-Fiction')
     mystery = BooleanField('Mystery')
