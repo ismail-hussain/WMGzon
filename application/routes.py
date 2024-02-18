@@ -8,15 +8,20 @@ from application.models import Sale, User, Book, Review, Basket, Wishlist
 from application.forms import RegisterForm, LoginForm, ReviewForm, AddBookForm, EditBookForm, AddToBasketForm, BookFilterForm, GenreForm
 from flask_login import login_user, logout_user, login_required, current_user
 
+# Define Blueprints for different sections of the application to organize route handlers
 main = Blueprint("main", __name__)
 users = Blueprint("users", __name__)
 books = Blueprint("books", __name__)
 reviews = Blueprint("reviews", __name__)
 
+#Define a route for the books page, handling both Get Request and Post request
+# Get : Retreiving data
+# Post : Create or update data
 @books.route('/books', methods=['GET', 'POST'])
 def book_page():
     form = GenreForm()
     if request.method == "GET":
+        # Authenticate Admin
         if current_user.is_authenticated:
             admin_or_not = current_user.is_admin
         else:
@@ -69,6 +74,7 @@ def book_page():
             print(f'Genres are: {selected_genres}')
             print(f'Price are: {price_conditions}')
             
+            #Filter/Sort books query
             query = Book.query
             if selected_genres:
                 query = query.filter(Book.genre.in_(selected_genres))
@@ -89,6 +95,11 @@ def book_page():
 
         return render_template('book.html', books=all_books, form=form)
 
+# Handles All books product page functions through get and pst requests, including:
+    # Displaying book data
+    # Sumbitting Reviews
+    # Adding to basket/wishlist
+
 @books.route('/books/<id>', methods=['GET', 'POST'])
 def home_page(id):
     form = ReviewForm()
@@ -99,6 +110,7 @@ def home_page(id):
         else:
             admin_or_not = False
         
+        # Retreive book details and review details
         book = Book.query.filter_by(id=id).first()
         book_review = Review.query.filter_by(book_id=id).all()
 
@@ -116,6 +128,9 @@ def home_page(id):
         
         return render_template('individual-book.html', book=book, reviews=book_review, similar_books=similar_books, average_rating=average_rating, form=form, form2=form2, admin=admin_or_not)
     
+    # Post: process form submission for
+        # Adding Reviews
+        # Adding book to Wishlist/Basket
     if request.method == "POST":
         form_type = request.form.get('form_type')
         current_id = current_user.id
@@ -154,6 +169,7 @@ def home_page(id):
             similar_books = Book.query.filter_by(genre=book.genre).all()
 
             return render_template('individual-book.html', book=book, reviews=book_review, similar_books=similar_books, average_rating=average_rating, form=form, form2=form2)
+        # Add valid book quantity to basket
         elif request.form['action'] == 'add_to_basket':
             book_quantity = form2.quantity.data
             if book_quantity > 0:
@@ -180,6 +196,7 @@ def home_page(id):
                 similar_books = Book.query.filter_by(genre=book.genre).all()
 
                 return render_template('individual-book.html', book=book, reviews=book_review, similar_books=similar_books, average_rating=average_rating, form=form,form2=form2)
+        # Add valid book quantity to wish list
         elif request.form['action'] == 'add_to_wishlist':
             book_quantity = form2.quantity.data
             if book_quantity > 0:
@@ -207,6 +224,7 @@ def home_page(id):
 
                 return render_template('individual-book.html', book=book, reviews=book_review, similar_books=similar_books, average_rating=average_rating, form=form,form2=form2)
 
+#This route is used for searching book: either by title or author
 @books.route('/search', methods=['GET','POST'])
 def search_books():
     if current_user.is_authenticated:
@@ -225,6 +243,8 @@ def search_books():
         admin=admin_or_not
     )
 
+# Defines route for Registering a new account
+# If inout is inalid (e.g. already have an account) an error message is shown and user is sent back
 @main.route('/register', methods=['GET','POST'])
 def register_page():
     form = RegisterForm()
@@ -241,6 +261,7 @@ def register_page():
             flash(f'There was an error with creating a user: {err_msg}', category='danger')
     return render_template('register.html', form=form)
 
+# Defines routes for login page: validates user and redirects to main page
 @main.route('/login', methods=['GET', 'POST'])
 @main.route('/', methods=['GET', 'POST'])
 def login_page():
@@ -263,6 +284,11 @@ def login_page():
 
     return render_template('login.html', form=form)
 
+# Defines route for basket page: includes functions to:
+# Move to wishlist
+# Change quantity
+# Checkout
+# Delete/remove
 @main.route('/basket', methods=['GET', 'POST', 'PATCH', 'DELETE'])
 def basket_page():
     if request.method == 'GET':
@@ -334,7 +360,11 @@ def basket_page():
                 subtotal += item.quantity * item.book.price
         return render_template('basket.html', items=items, subtotal = subtotal)
         
-
+# Defines route for wishlist page: includes functions to:
+# Move to basket
+# Change quantity
+# Checkout
+# Delete/remove
 @main.route('/wishlist', methods=['GET', 'POST', 'PATCH', 'DELETE'])
 def wishlist_page():
     if request.method == 'GET':
@@ -378,7 +408,8 @@ def wishlist_page():
         items = Wishlist.get_wishlist_items(user_id=current_id)
         return render_template('wishlist.html', items=items, admin=admin_or_not)
 
-
+# Defines route for admin database page including:
+    # Adding/Editing/Delisting from Database
 @main.route('/admin', methods=['GET', 'POST'])
 def admin_page():
     form = AddBookForm()
@@ -492,12 +523,13 @@ def admin_page():
             all_books = Book.query.all()
             return render_template('admin2.html', books=all_books, form=form, form2=form2, admin=admin_or_not)
 
-
+# Route dedicated for storing book image inside database
 @books.route('/display/<int:book_id>')
 def display(book_id):
     book = Book.query.get_or_404(book_id)
     return send_file(io.BytesIO(book.book_picture), mimetype='image/jpeg')
 
+# The following consider books inside basket/wishlist as sold items and updates the database accordingly
 @main.route('/update_basket', methods=['POST'])
 def update_basket():
     if current_user.is_authenticated:
@@ -520,6 +552,7 @@ def update_wishlist():
 
     return redirect(url_for('main.wishlist_page'))
 
+# Changed main page depending on if user is admin or not
 @main.route('/main', methods=['GET', 'POST'])
 def main_page():
     if current_user.is_authenticated:
@@ -528,6 +561,11 @@ def main_page():
         admin_or_not = False
     return render_template('main-page.html', admin=admin_or_not)
 
+# -------------------------------------------------------------------------------------------------
+
+# All following routes are linked to  the admin dashboard (Statistics page)
+
+# Route to highligh high priority items e.g. low stock
 @main.route('/statistics', methods=['GET'])
 def statistics_page():
     if current_user.is_authenticated:
@@ -562,6 +600,7 @@ def statistics_page():
     return render_template('statistics.html',
                         low_stock_books=low_stock_books, book_sales_info=book_sales_info, admin=admin_or_not)
 
+# Route to gather revenue related information for quering, then sends this data in JSON format
 @main.route('/statistics/revenue-generated')
 def statistics_data():
 
@@ -586,6 +625,7 @@ def statistics_data():
     }
     return jsonify(data)
 
+# Gathers information on quantity of books sold, then groups by genre and return in JSON format
 @main.route('/statistics/sales-by-genre')
 def sales_by_genre_data():
     current_month = datetime.utcnow().month
@@ -613,6 +653,7 @@ def sales_by_genre_data():
 
 from collections import OrderedDict, defaultdict
 
+# Route queries database and calculates review ratings for set periods, then return data in JSON format
 @main.route('/statistics/reviews-count')
 def reviews_count_data():
     # Calculate the date ranges for the past 7 days and 7-14 days
@@ -670,3 +711,4 @@ def reviews_count_data():
         'values_7_14_days': values_7_14_days,
     }
     return jsonify(data)
+  

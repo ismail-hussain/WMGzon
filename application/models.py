@@ -3,10 +3,12 @@ from application import db, bcrypt, login_manager
 from flask_login import UserMixin
 from sqlalchemy.orm import joinedload
 
+#Function below is used to get a user by ID from Database
 @login_manager.user_loader
 def load_user(user_id):
     return User.query.get(int(user_id))
 
+#This Class is a database model representing a user and storing key information
 class User(db.Model, UserMixin):
     id = db.Column(db.Integer(), primary_key=True)
     email_address = db.Column(db.String(length=50), nullable=False)
@@ -25,7 +27,7 @@ class User(db.Model, UserMixin):
         return bcrypt.check_password_hash(self.password_hash, attempted_password)
     
     
-
+# Represents a book record in a flask database with key information
 class Book(db.Model):
     id = db.Column(db.Integer(), primary_key=True)
     title = db.Column(db.String(length=50), nullable=False, unique=True)
@@ -45,7 +47,7 @@ class Book(db.Model):
     
 
 
-
+# This class modes a review for a book, linking to both book and user
 class Review(db.Model):
     id = db.Column(db.Integer(), primary_key=True)
     book_id = db.Column(db.Integer(), db.ForeignKey('book.id'), nullable=False)
@@ -58,7 +60,7 @@ class Review(db.Model):
     book = db.relationship('Book', backref=db.backref('reviews', lazy=True))
     user = db.relationship('User', backref=db.backref('reviews', lazy=True))
 
-class Basket(db.Model):
+# The Basket Class shows the a user's shopping basket within a database, including all user functions related to the basket
     id = db.Column(db.Integer, primary_key=True)
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
     book_id = db.Column(db.Integer, db.ForeignKey('book.id'), nullable=False)
@@ -86,11 +88,13 @@ class Basket(db.Model):
         db.session.commit()
 
     def update_quantity(basket_id, new_quantity):
+        # Change Quantity of a book in a basket
         basket_item = Basket.query.get(basket_id)
         basket_item.quantity = new_quantity
         db.session.commit()
 
     def remove_from_basket(basket_id):
+        # Remove all quantity of one book from the basket
         basket_item = Basket.query.get(basket_id)
         db.session.delete(basket_item)
         db.session.commit()
@@ -118,6 +122,8 @@ class Basket(db.Model):
             db.session.delete(basket_item)
 
         db.session.commit()
+
+# The Basket Class shows the a user's Wishlist within a database, including all user functions related to the Wishlist
 
 class Wishlist(db.Model):
     id = db.Column(db.Integer, primary_key=True)
@@ -180,6 +186,7 @@ class Wishlist(db.Model):
 
         db.session.commit()
 
+# Sale class models a sales record within the database and tracks key information
 class Sale(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     book_id = db.Column(db.Integer, db.ForeignKey('book.id'), nullable=False)
@@ -189,6 +196,7 @@ class Sale(db.Model):
     # Relationship to the Book model
     book = db.relationship('Book', backref='sales')
     
+    # Calculates Revennue Generated from book sales
     @property
     def revenue(self):
         return self.quantity_sold * self.book.price
