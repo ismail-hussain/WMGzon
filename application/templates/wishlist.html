@@ -62,7 +62,7 @@ content %} {% if items %}
   <div id="basket-summary">
     
     <div id="Continue-shopping-div">
-      <h3>Continue Shopping</h3>
+      <a href="{{ url_for('main.main_page')}}">Continue Shopping</a>
       <a href="{{ url_for('main.basket_page')}}"><h3>Go to Basket</h3></a>
     </div>
   </div>

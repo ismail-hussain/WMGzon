@@ -10,7 +10,7 @@ def test_books_page_get(client):
     # Check if the response contains titles from the fake data
     assert b'To Kill a Mockingbird' in response.data
     assert b'1984' in response.data
-    
+
 
 def test_books_page_post(client):
     
@@ -60,7 +60,7 @@ def test_unsuccessful_login(client):
     assert response.status_code == 200
     print(response.data)
     assert b'Login Page' in response.data
-    
+   
 def test_successful_login(client):
     
     valid_credentials = {
@@ -96,7 +96,7 @@ def test_wishlist_page_authenticated(login_as_user, client):
     assert b'items in wishlist' in response.data  # Check for a unique element present in the wishlist page
 
 
-    
+  
 def test_display_with_valid_book_id(client, add_book_with_image):
     book_id = add_book_with_image  # Get the ID from the fixture
     response = client.get(f'/display/{book_id}')

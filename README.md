@@ -4,3 +4,8 @@
    FLASK_APP=application
    FLASK_DEBUG=1
 4. Go back on the terminal and run 'python run.py' to create the database and run the application
+
+Dependencies:
+- Python 3.10.5 and above
+- Downlaod pip
+- (optional) DB Browser (SQL Lite) - this is an external software to view database

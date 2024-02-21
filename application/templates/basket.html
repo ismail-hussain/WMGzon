@@ -65,7 +65,7 @@ content %} {% if items %}
       £{{subtotal}}
     </h1>
     <div id="Continue-shopping-div">
-      <h3>Continue Shopping</h3>
+      <a href="{{ url_for('main.main_page')}}">Continue Shopping</a>
       <form method="POST" action="{{ url_for('main.basket_page') }}">
         <input type="hidden" name="action" value="checkout">
         <button type="submit" id="checkout-btn">Checkout</button>

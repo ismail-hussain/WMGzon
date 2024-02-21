@@ -12,11 +12,8 @@ block content %}
     <h3>Sales By Genre (Month)</h3>
   </div>
 </div>
-<div style="width: 40vw; height: 40vh" class="charts">
-  <canvas id="reviewChart"></canvas>
-  <h3>Customer Satisfaction</h3>
-</div>
-<div>
+
+<div id="top-sellers-table">
   <table class="chart-table">
     <thead>
       <tr>
@@ -49,7 +46,13 @@ block content %}
   </table>
   <h2 class="table-title">Top Sellers Of The Month</h2>
 </div>
-<div>
+<div id="reviewChart-div" style="width: 40vw; height: 40vh" class="charts">
+  <h3>Customer Satisfaction</h3>
+  <canvas id="reviewChart"></canvas>
+  <h3>Ratings: Last Week vs This Week</h3>
+</div>
+<div id="inventory-table">
+  <h2 class="table-title">Inventory - Low Stock Products</h2>
   <table class="chart-table">
     <thead>
       <tr>
@@ -76,7 +79,7 @@ block content %}
       {% endfor %}
     </tbody>
   </table>
-  <h2 class="table-title">Books with Low Stock</h2>
+  
 </div>
 
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>

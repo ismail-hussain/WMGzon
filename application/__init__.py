@@ -42,7 +42,7 @@ def create_app(env=None):
     # Makes sure DB is created in an application context
     app.app_context().push()
 
-#For User Authenication
+# For User Authenication
     CORS(app)
     bcrypt.init_app(app)
     login_manager.init_app(app)

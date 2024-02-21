@@ -61,6 +61,7 @@ class Review(db.Model):
     user = db.relationship('User', backref=db.backref('reviews', lazy=True))
 
 # The Basket Class shows the a user's shopping basket within a database, including all user functions related to the basket
+class Basket(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
     book_id = db.Column(db.Integer, db.ForeignKey('book.id'), nullable=False)

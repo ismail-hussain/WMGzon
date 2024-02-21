@@ -1,5 +1,6 @@
 {% extends 'base.html' %} {% block title %} Admin {% endblock %} {% block
 content %}
+<!-- The code generates a table in the admin interface, listing books with details like ID, title, price, and stock, excluding delisted books. -->
 <table>
   <thead>
     <tr>
@@ -36,6 +37,7 @@ content %}
         >
           Edit
         </button>
+        <!-- Delete (Delist) Book Form -->
         <form
           method="POST"
           action="{{ url_for('main.admin_page', id=book.id) }}"
@@ -45,7 +47,7 @@ content %}
           <input type="hidden" name="delete_book" value="{{ book.id }}" />
           <button type="submit" class="delete-btn">Delist</button>
         </form>
-        <!-- Add a modal for each book -->
+        <!-- Add a modal for editing book information -->
         <div
           class="modal fade"
           id="editModal{{ book.id }}"
@@ -60,7 +62,8 @@ content %}
                 <h5 class="modal-title" id="editModalLabel{{ book.id }}">
                   Edit Book
                 </h5>
-                <button
+                <!--Close Button For Editing-->
+                <button 
                   type="button"
                   class="close"
                   data-dismiss="modal"
@@ -69,6 +72,7 @@ content %}
                   <span aria-hidden="true">&times;</span>
                 </button>
               </div>
+              <!--Modal Body With form for editing-->
               <div class="modal-body">
                 <form method="POST" action="{{ url_for('main.admin_page') }}">
                   {{ form.hidden_tag() }}

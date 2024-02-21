@@ -186,7 +186,7 @@ ol li {
   list-style: none; /* Remove bullet points or numbering for list items */
 }
 
-.temp-img {
+.template-img {
   width: 45vh;
   height: 60vh;
   border: 2px solid black;
@@ -281,8 +281,6 @@ ol li {
   border-radius: 10px;
 } */
 
-#individual-basket-img {
-}
 
 /*Summary Section Layout and buttons Details*/
 #basket-summary {
@@ -444,4 +442,18 @@ ol li {
 
 .delisted-table {
   margin: 2vh 0 5vh 0;
+}
+
+#top-sellers-table{
+  margin-top: 5vh;
+  border-bottom: 5px solid black;
+}
+
+#inventory-table{
+  margin-top: 10vh;
+  border-top: 5px solid black;
+}
+
+#reviewChart-div{
+  margin: 0 auto;
 }
