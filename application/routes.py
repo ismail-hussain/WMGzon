@@ -302,7 +302,7 @@ def basket_page():
             if items:
                 for item in items:
                     
-                    subtotal += item.quantity * item.book.price
+                    subtotal += int(item.quantity) * int(item.book.price)
             return render_template('basket.html', items=items, subtotal = subtotal, admin=admin_or_not)
         else:
             flash('Please log in to view your basket.', 'warning')
@@ -396,7 +396,7 @@ def wishlist_page():
             
             # Move the selected item to the wishlist
             Wishlist.move_to_basket(user_id=current_id, book_id=book_id, quantity=item.quantity)
-            flash("Item moved to wishlist!", category="success")
+            flash("Item moved to basket!", category="success")
 
         if current_user.is_authenticated:
             admin_or_not = current_user.is_admin

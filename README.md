@@ -4,6 +4,7 @@
    FLASK_APP=application
    FLASK_DEBUG=1
 4. Go back on the terminal and run 'python run.py' to create the database and run the application
+5. Type 'pytest' in terminal to run tests
 
 Dependencies:
 - Python 3.10.5 and above
